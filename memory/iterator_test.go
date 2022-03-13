@@ -6,52 +6,52 @@ import (
 )
 
 func TestNext(t *testing.T) {
-	recs := []Record{
+	recs := []record{
 		{
-			Key:       1,
-			Value:     1,
+			key:       1,
+			value:     1,
 			createdAt: time.Now(),
 		},
 		{
-			Key:       2,
-			Value:     2,
+			key:       2,
+			value:     2,
 			createdAt: time.Now(),
 		},
 		{
-			Key:       3,
-			Value:     3,
+			key:       3,
+			value:     3,
 			createdAt: time.Now(),
 		},
 	}
-	i := &Iterator{
+	i := &iterator{
 		records: recs,
 		index:   len(recs),
 	}
-	r := i.Next()
-	if r.Key != 3 {
+	i.Next()
+	if i.Key() != 3 {
 		t.Error("TestNext: Not expected result returned")
 	}
 }
 
 func TestHasNext(t *testing.T) {
-	recs := []Record{
+	recs := []record{
 		{
-			Key:       1,
-			Value:     1,
+			key:       1,
+			value:     1,
 			createdAt: time.Now(),
 		},
 		{
-			Key:       2,
-			Value:     2,
+			key:       2,
+			value:     2,
 			createdAt: time.Now(),
 		},
 		{
-			Key:       3,
-			Value:     3,
+			key:       3,
+			value:     3,
 			createdAt: time.Now(),
 		},
 	}
-	i := &Iterator{
+	i := &iterator{
 		records: recs,
 		index:   len(recs),
 	}
@@ -62,14 +62,14 @@ func TestHasNext(t *testing.T) {
 }
 
 func TestHasNextEmpty(t *testing.T) {
-	recs := []Record{
+	recs := []record{
 		{
-			Key:       1,
-			Value:     1,
+			key:       1,
+			value:     1,
 			createdAt: time.Now(),
 		},
 	}
-	i := &Iterator{
+	i := &iterator{
 		records: recs,
 		index:   len(recs),
 	}
@@ -81,44 +81,44 @@ func TestHasNextEmpty(t *testing.T) {
 }
 
 func TestPrevious(t *testing.T) {
-	recs := []Record{
+	recs := []record{
 		{
-			Key:       1,
-			Value:     1,
+			key:       1,
+			value:     1,
 			createdAt: time.Now(),
 		},
 		{
-			Key:       2,
-			Value:     2,
+			key:       2,
+			value:     2,
 			createdAt: time.Now(),
 		},
 	}
-	i := &Iterator{
+	i := &iterator{
 		records: recs,
 		index:   len(recs),
 	}
 	i.Next()
 	i.Next()
-	v := i.Previous()
-	if v.Key != 2 {
-		t.Error("TestPrevious: Not expected result returned", v.Key)
+	i.Previous()
+	if i.Key() != 2 {
+		t.Error("TestPrevious: Not expected result returned", i.Key())
 	}
 }
 
 func TestHasPrevious(t *testing.T) {
-	recs := []Record{
+	recs := []record{
 		{
-			Key:       1,
-			Value:     1,
+			key:       1,
+			value:     1,
 			createdAt: time.Now(),
 		},
 		{
-			Key:       2,
-			Value:     2,
+			key:       2,
+			value:     2,
 			createdAt: time.Now(),
 		},
 	}
-	i := &Iterator{
+	i := &iterator{
 		records: recs,
 		index:   len(recs),
 	}
@@ -131,8 +131,8 @@ func TestHasPrevious(t *testing.T) {
 }
 
 func TestHasPreviousEmpty(t *testing.T) {
-	recs := []Record{}
-	i := &Iterator{
+	recs := []record{}
+	i := &iterator{
 		records: recs,
 		index:   len(recs),
 	}
@@ -144,19 +144,19 @@ func TestHasPreviousEmpty(t *testing.T) {
 }
 
 func TestKey(t *testing.T) {
-	recs := []Record{
+	recs := []record{
 		{
-			Key:       1,
-			Value:     1,
+			key:       1,
+			value:     1,
 			createdAt: time.Now(),
 		},
 		{
-			Key:       2,
-			Value:     2,
+			key:       2,
+			value:     2,
 			createdAt: time.Now(),
 		},
 	}
-	i := &Iterator{
+	i := &iterator{
 		records: recs,
 		index:   len(recs),
 	}
@@ -169,19 +169,19 @@ func TestKey(t *testing.T) {
 }
 
 func TestValue(t *testing.T) {
-	recs := []Record{
+	recs := []record{
 		{
-			Key:       1,
-			Value:     1,
+			key:       1,
+			value:     1,
 			createdAt: time.Now(),
 		},
 		{
-			Key:       2,
-			Value:     2,
+			key:       2,
+			value:     2,
 			createdAt: time.Now(),
 		},
 	}
-	i := &Iterator{
+	i := &iterator{
 		records: recs,
 		index:   len(recs),
 	}
@@ -194,19 +194,19 @@ func TestValue(t *testing.T) {
 }
 
 func TestClose(t *testing.T) {
-	recs := []Record{
+	recs := []record{
 		{
-			Key:       1,
-			Value:     1,
+			key:       1,
+			value:     1,
 			createdAt: time.Now(),
 		},
 		{
-			Key:       2,
-			Value:     2,
+			key:       2,
+			value:     2,
 			createdAt: time.Now(),
 		},
 	}
-	i := &Iterator{
+	i := &iterator{
 		records: recs,
 		index:   len(recs),
 	}
