@@ -1,36 +1,42 @@
 package memory
 
-type Iterator struct {
-	records []Record
+type iterator struct {
+	records []record
 	index   int
 }
 
-func (i *Iterator) Next() Record {
-	i.index--
-	return i.records[i.index]
+func (i *iterator) Seek(key interface{}) {
+	for idx, r := range i.records {
+		if r.key == key {
+			i.index = idx
+		}
+	}
 }
 
-func (i *Iterator) HasNext() bool {
+func (i *iterator) Next() {
+	i.index--
+}
+
+func (i *iterator) HasNext() bool {
 	return i.index > 0
 }
 
-func (i *Iterator) Previous() Record {
+func (i *iterator) Previous() {
 	i.index++
-	return i.records[i.index]
 }
 
-func (i *Iterator) HasPrevious() bool {
+func (i *iterator) HasPrevious() bool {
 	return i.index < len(i.records)
 }
 
-func (i *Iterator) Key() interface{} {
-	return i.records[i.index].Key
+func (i *iterator) Key() interface{} {
+	return i.records[i.index].key
 }
 
-func (i *Iterator) Value() interface{} {
-	return i.records[i.index].Value
+func (i *iterator) Value() interface{} {
+	return i.records[i.index].value
 }
 
-func (i *Iterator) Close() {
+func (i *iterator) Close() {
 	i.records = nil
 }

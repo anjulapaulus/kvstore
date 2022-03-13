@@ -8,13 +8,13 @@ import (
 
 type memoryStore struct {
 	name        string
-	records     map[interface{}]Record
+	records     map[interface{}]record
 	expireAfter time.Duration
 	mtx         sync.RWMutex
 }
 
-type Record struct {
-	Key, Value interface{}
+type record struct {
+	key, value interface{}
 	createdAt  time.Time
 }
 
@@ -43,7 +43,7 @@ func NewMemoryStore(name string, options ...memOps) *memoryStore {
 	}
 	m := &memoryStore{
 		name:        name,
-		records:     make(map[interface{}]Record),
+		records:     make(map[interface{}]record),
 		expireAfter: opts.expiry * time.Nanosecond,
 	}
 
@@ -59,9 +59,9 @@ func (m *memoryStore) Name() string {
 }
 
 func (m *memoryStore) Set(key, value interface{}) error {
-	r := Record{
-		Key:       key,
-		Value:     value,
+	r := record{
+		key:       key,
+		value:     value,
 		createdAt: time.Now(),
 	}
 	m.mtx.Lock()
@@ -98,20 +98,20 @@ func (m *memoryStore) CreatedAt(key interface{}) time.Time {
 	return time.Time{}
 }
 
-func (m *memoryStore) NewIterator() (*Iterator, error) {
+func (m *memoryStore) NewIterator() (*iterator, error) {
 	copyRecs := m.copy()
 	if len(copyRecs) < 1 {
 		return nil, errors.New("no records")
 	}
 
-	return &Iterator{
+	return &iterator{
 		records: copyRecs,
 		index:   len(copyRecs) - 1,
 	}, nil
 }
 
-func (m *memoryStore) copy() []Record {
-	var recs []Record
+func (m *memoryStore) copy() []record {
+	var recs []record
 	m.mtx.RLock()
 	for _, v := range m.records {
 		recs = append(recs, v)
@@ -124,7 +124,7 @@ func (m *memoryStore) cleanup() {
 	records := m.copy()
 	for _, v := range records {
 		if time.Since(v.createdAt).Nanoseconds() > m.expireAfter.Nanoseconds() {
-			m.Delete(v.Key)
+			m.Delete(v.key)
 		}
 	}
 }

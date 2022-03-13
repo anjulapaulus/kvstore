@@ -1,4 +1,4 @@
-name: Build, Test And Publish
+name: Worfkflow
 
 on:
   push:
