@@ -5,6 +5,33 @@ import (
 	"time"
 )
 
+func TestSeek(t *testing.T) {
+	recs := []record{
+		{
+			key:       1,
+			value:     1,
+			createdAt: time.Now(),
+		},
+		{
+			key:       2,
+			value:     2,
+			createdAt: time.Now(),
+		},
+		{
+			key:       3,
+			value:     3,
+			createdAt: time.Now(),
+		},
+	}
+	i := &iterator{
+		records: recs,
+		index:   len(recs),
+	}
+	i.Seek(1)
+	if i.Key() != 1 {
+		t.Error("TestSeek: Not expected result returned")
+	}
+}
 func TestNext(t *testing.T) {
 	recs := []record{
 		{
