@@ -23,12 +23,12 @@ func (i *Iterator) HasPrevious() bool {
 	return i.index < len(i.records)
 }
 
-func (i *Iterator) Key() int {
-	return i.index
+func (i *Iterator) Key() interface{} {
+	return i.records[i.index].Key
 }
 
-func (i *Iterator) Value() Record {
-	return i.records[i.index]
+func (i *Iterator) Value() interface{} {
+	return i.records[i.index].Value
 }
 
 func (i *Iterator) Close() {

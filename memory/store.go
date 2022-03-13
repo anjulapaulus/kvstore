@@ -106,7 +106,7 @@ func (m *memoryStore) NewIterator() (*Iterator, error) {
 
 	return &Iterator{
 		records: copyRecs,
-		index:   len(copyRecs),
+		index:   len(copyRecs) - 1,
 	}, nil
 }
 
