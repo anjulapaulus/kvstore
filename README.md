@@ -3,17 +3,6 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/anjulapaulus/kvstore)](https://goreportcard.com/report/github.com/anjulapaulus/kvstore)
 
 # KV Store
-The project holds key-value store implementations.
+The project holds key-value store implementations and wrappers for stores.
 1. Memory key-value store
 
-### Examples
-
-```
-package main
-
-import "github.com/anjulapaulus/kvstore/memory"
-
-func main(){
-    store := memory.NewMemoryStore("Test")
-}
-```
