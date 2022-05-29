@@ -58,6 +58,10 @@ func (m *memoryStore) Name() string {
 	return m.name
 }
 
+func (m *memoryStore) Type() string {
+	return "memory"
+}
+
 func (m *memoryStore) Set(key, value interface{}) error {
 	r := record{
 		key:       key,
