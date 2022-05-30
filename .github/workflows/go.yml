@@ -14,14 +14,7 @@ jobs:
     container:
       image: anjulapaulus/go-rocksdb:go1.16.15-rocks7.0.2
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
-      - uses: actions/setup-go@v2
-        with:
-          go-version: '1.16'
       - name: Run coverage
         run: go test -coverpkg=./... -coverprofile coverage.txt ./...
-        # run: go test -race -coverprofile=coverage.txt -covermode=atomic
       - name: Upload coverage to Codecov
         run: bash <(curl -s https://codecov.io/bash)
