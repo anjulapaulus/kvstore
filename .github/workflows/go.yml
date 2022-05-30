@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: anjulapaulus/go-rocksdb:go1.16.15-rocks6.29.3
     steps:
       - uses: actions/checkout@v2
         with:
