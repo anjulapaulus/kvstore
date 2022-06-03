@@ -2,23 +2,25 @@ name: Worfkflow
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
     tags: 
       - '**'
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: anjulapaulus/go-rocksdb:go1.16.15-rocks7.0.2
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-        
-      - name: Run coverage
-        run: go test -coverpkg=./... -coverprofile coverage.txt ./...
-        
-      - name: Upload coverage to Codecov
-        run: bash <(curl -s https://codecov.io/bash)
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.18
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Test
+      run: go test -v ./...
