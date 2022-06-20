@@ -20,7 +20,7 @@ jobs:
         go-version: 1.18
         
     - name: Run RocksDB build script
-      run: ./setup.sh
+      run: git update-index --chmod=+x ./setup.sh && ./setup.sh
       shell: bash
 
     - name: Run Tests
