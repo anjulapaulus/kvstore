@@ -3,7 +3,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/anjulapaulus/kvstore)](https://goreportcard.com/report/github.com/anjulapaulus/kvstore)
 
 # KV Store
-The project holds key-value store implementations and wrappers for stores.
+The project holds key-value store implementations and wrappers for Key Value stores.
 
 1.  [Memory Key Value store](memory/README.md)
 2.  RocksDB Key Value store
