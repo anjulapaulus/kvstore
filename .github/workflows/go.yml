@@ -30,6 +30,9 @@ jobs:
       - name: Build
         if: steps.cache-built-rocksdb.outputs.cache-hit != 'true'
         run: make libs
+      
+      - name: Export RocksDB Shared Library path
+        run: echo "${LD_LIBRARY_PATH}:/usr/local/lib" >> $LD_LIBRARY_PATH
 
       - name: Test Coverage
         run: go test -coverpkg=./... -coverprofile coverage.out ./...
