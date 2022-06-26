@@ -1,27 +1,47 @@
-name: Worfkflow
+name: CI
 
 on:
   push:
-    branches: [ main, develop ]
-    tags: 
-      - '**'
+    branches: [master]
   pull_request:
-    branches: [ main, develop ]
+    branches: [master]
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.16
+        id: go
 
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.18
-        
-    - name: Run RocksDB build script
-      run: git update-index --chmod=+x ./setup.sh && ./setup.sh
-      shell: bash
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
 
-    - name: Run Tests
-      run: go test -v ./...
+      - name: Get dependencies
+        run: |
+          go get -v -t -d ./...
+          if [ -f Gopkg.toml ]; then
+              curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+              dep ensure
+          fi
+      - name: Build
+        if: steps.cache-built-rocksdb.outputs.cache-hit != 'true'
+        run: make libs
+
+      - name: Test Coverage
+        run: go test -v -tags testing -count=1 -coverprofile=coverage.out
+
+      - name: Convert coverage to lcov
+        uses: jandelgado/gcov2lcov-action@v1.0.8
+        with:
+          infile: coverage.out
+          outfile: coverage.lcov
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: coverage.lcov
